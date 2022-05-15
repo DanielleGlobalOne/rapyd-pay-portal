@@ -10,8 +10,8 @@ export namespace Components {
         "action": string;
         "checkoutId": string;
         "feedback": string;
+        "heading": string;
         "message": string;
-        "title": string;
     }
 }
 declare global {
@@ -30,8 +30,8 @@ declare namespace LocalJSX {
         "action"?: string;
         "checkoutId"?: string;
         "feedback"?: string;
+        "heading"?: string;
         "message"?: string;
-        "title"?: string;
     }
     interface IntrinsicElements {
         "rapyd-pay-portal": RapydPayPortal;

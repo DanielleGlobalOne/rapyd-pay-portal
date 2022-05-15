@@ -1,4 +1,4 @@
-import { Component, Prop, h, State } from '@stencil/core';
+import { Component, Prop, h } from '@stencil/core';
 
 @Component({
   tag: 'rapyd-pay-portal',
@@ -6,7 +6,8 @@ import { Component, Prop, h, State } from '@stencil/core';
   shadow: false,
 })
 export class RapydPayPortal {
-  @Prop() title: string;
+  @Prop() heading: string;
+
   @Prop() action: string;
 
   @Prop() message: string;
@@ -39,7 +40,7 @@ export class RapydPayPortal {
   render() {
     return (
       <div id="rapyd-checkout">
-        <div id="title">{this.title}</div>
+        <div id="title">{this.heading}</div>
         <div id="image"></div>
         <div id="action">{this.action}</div>
         <div id="message">{this.message}</div>

@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "rapyd-pay-portal": ["libs/rapyd-pay-portal"],
+      "rapyd-pay-portal/loader": ["libs/rapyd-pay-portal/dist/loader/index.cjs.js"],
+      "rapyd-pay-portal-react": ["/generated/rapyd-pay-portal-react/src/components.ts"]
+    },
+
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
     "declaration": false,
     "experimentalDecorators": true,
-    "lib": [
-      "dom",
-      "es2017"
-    ],
+    "lib": ["dom", "es2017"],
     "moduleResolution": "node",
     "module": "esnext",
     "target": "es2017",
@@ -16,10 +20,6 @@
     "jsx": "react",
     "jsxFactory": "h"
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }
