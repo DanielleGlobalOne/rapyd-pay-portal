@@ -1,22 +1,31 @@
-import { Component, Prop, h } from '@stencil/core';
+import { Component, Prop, h, State, Host } from '@stencil/core';
 
 @Component({
   tag: 'rapyd-pay-portal',
   styleUrl: 'rapyd-pay-portal.css',
-  shadow: false,
 })
 export class RapydPayPortal {
-  @Prop() heading: string;
+  @Prop({ reflect: true, mutable: true }) heading?: string;
 
-  @Prop() action: string;
+  @Prop({ reflect: true, mutable: true }) action?: string;
 
-  @Prop() message: string;
+  @Prop({ reflect: true, mutable: true }) message?: string;
 
-  @Prop() feedback: string;
+  @Prop({ reflect: true, mutable: true }) errorHeading?: string;
 
-  @Prop() checkoutId: string = '';
+  @Prop({ reflect: true, mutable: true }) errorAction?: string;
+
+  @Prop({ reflect: true, mutable: true }) errorMessage?: string;
+
+  @Prop({ reflect: true, mutable: true }) checkoutId: string;
+
+  @Prop({ reflect: true, mutable: true }) imagePath: string;
+
+  @State() hideFeedback: boolean;
+  @State() error: boolean;
 
   componentDidLoad() {
+    this.hideFeedback = true;
     let script = document.createElement('script');
     script.innerHTML =
       `(function () {
@@ -36,16 +45,43 @@ export class RapydPayPortal {
       checkout.displayCheckout();
     })();`;
     document.head.appendChild(script);
+
+    window.addEventListener('onCheckoutPaymentSuccess', (event: CustomEvent) => {
+      console.info(event.detail);
+      this.feedback(event);
+    });
+    window.addEventListener('onCheckoutFailure', (event: CustomEvent) => {
+      console.error(event.detail.error);
+      this.feedback(event);
+    });
+    window.addEventListener('onCheckoutPaymentFailure', (event: CustomEvent) => {
+      console.error(event.detail.error);
+      this.feedback(event);
+    });
+
+    // display information to the user
   }
+  feedback = (event: CustomEvent) => {
+    this.hideFeedback = false;
+    if (event.detail.error) {
+      this.error = true;
+      if (!this.errorMessage.includes(event.detail.error)) this.errorMessage += ' ' + event.detail.error;
+    } else {
+      this.error = false;
+      if (!this.message.includes(event.detail?.sales_order)) this.message += ' ' + event.detail?.sales_order;
+    }
+  };
   render() {
     return (
-      <div id="rapyd-checkout">
-        <div id="title">{this.heading}</div>
-        <div id="image"></div>
-        <div id="action">{this.action}</div>
-        <div id="message">{this.message}</div>
-        <div id="feedback">{this.feedback}</div>
-      </div>
+      <Host>
+        <div id="rapyd-checkout"></div>
+        <div id="feedback" hidden={this.hideFeedback}>
+          <div id="heading">{this.error ? this.errorHeading : this.heading}</div>
+          <img src={this.imagePath} hidden={!this.imagePath} alt="" />
+          <div id="action">{this.error ? this.errorAction : this.action}</div>
+          <div id="message">{this.error ? this.errorMessage : this.message}</div>
+        </div>
+      </Host>
     );
   }
 }

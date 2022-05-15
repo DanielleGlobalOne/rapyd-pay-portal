@@ -7,11 +7,14 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface RapydPayPortal {
-        "action": string;
+        "action"?: string;
         "checkoutId": string;
-        "feedback": string;
-        "heading": string;
-        "message": string;
+        "errorAction"?: string;
+        "errorHeading"?: string;
+        "errorMessage"?: string;
+        "heading"?: string;
+        "imagePath": string;
+        "message"?: string;
     }
 }
 declare global {
@@ -29,8 +32,11 @@ declare namespace LocalJSX {
     interface RapydPayPortal {
         "action"?: string;
         "checkoutId"?: string;
-        "feedback"?: string;
+        "errorAction"?: string;
+        "errorHeading"?: string;
+        "errorMessage"?: string;
         "heading"?: string;
+        "imagePath"?: string;
         "message"?: string;
     }
     interface IntrinsicElements {

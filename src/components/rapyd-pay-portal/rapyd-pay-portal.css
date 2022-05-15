@@ -1,5 +1,5 @@
-:host {
-  display: block;
-  height: 500px;
-  width: 500px;
+:host #feedback {
+  background-color: aquamarine;
+  font-size: 40px;
+  border: 1px solid 'black';
 }
